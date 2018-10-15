@@ -16,19 +16,18 @@ It works like this:
 ## Prerequisites
 
 - A Linode [personal access token](https://cloud.linode.com/profile/tokens) with *full access* to the *domains* category
-- Python 2/3 and [requests](http://docs.python-requests.org/). If you don't want to install requests globally you can use [pipenv](https://docs.pipenv.org/#install-pipenv-today) and the included wrapper scripts. Alternatively, there's a [Docker image](https://hub.docker.com/r/proog/certbot-linode-dns/) available.
+- Python 2/3 and [requests](http://docs.python-requests.org/).
 
 ## Installation
 
 1. Clone the repository
-2. Run `pipenv install` inside
-3. Set the `LINODE_ACCESS_TOKEN` environment variable or paste your access token near the top of `linode.py`
+2. Set the `LINODE_ACCESS_TOKEN` environment variable or paste your access token near the top of `linode.py`
 
 Alternatively, there's a [Docker image](https://hub.docker.com/r/proog/certbot-linode-dns/) available based on the official Certbot image.
 
 ## Usage
 
-When running Certbot in manual mode, specify `dns` as the only preferred challenge, `pipenv_auth.sh` for the auth hook, and `pipenv_cleanup.sh` for the cleanup hook. For testing, add the `--dry-run` flag.
+When running Certbot in manual mode, specify `dns` as the only preferred challenge, `auth.sh` for the auth hook, and `cleanup.sh` for the cleanup hook. For testing, add the `--dry-run` flag.
 
 Example:
 
@@ -40,14 +39,7 @@ LINODE_ACCESS_TOKEN=mytoken certbot certonly \
     -d secure.example.com
 ```
 
-The two shell scripts are thin wrappers that run the Python scripts in the pipenv-created virtual environment. If you prefer not to use pipenv, you can directly specify `auth.py` and `cleanup.py` instead. They will use whatever `/usr/bin/env python` resolves to on your system. Remember to install `requests` globally as well.
-
-Example with Docker (the image automatically adds the appropriate options):
-
-```sh
-docker run --rm -it -e LINODE_ACCESS_TOKEN=mytoken \
-    proog/certbot-linode-dns certonly -d secure.example.com
-```
+The two shell scripts are thin wrappers that run the Python scripts. Remember to install `requests` globally as well.
 
 ## Caveats
 
